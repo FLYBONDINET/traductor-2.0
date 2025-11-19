@@ -117,13 +117,14 @@ function getGateText(lang, gate, secondaryGate) {
 function buildAnnouncement(lang, template, data) {
   const { vuelo, destino, gate, secondaryGate, grupos } = data;
 
-  // Número de vuelo: leer dígito por dígito según idioma
-  const vueloDigits = (vuelo || "").replace(/\D/g, "");
-  const vueloPron = numberToWordsPerDigit(vueloDigits, lang);
-  // Ej: "cinco dos cuatro cero (5240)"
-  const vueloTexto = vueloPron && vueloDigits
-    ? `${vueloPron} (${vueloDigits})`
-    : vuelo || "XXXX";
+// Número de vuelo: leer dígito por dígito según idioma
+const vueloDigits = (vuelo || "").replace(/\D/g, "");
+const vueloPron = numberToWordsPerDigit(vueloDigits, lang);
+
+// Ahora el vuelo se dirá como palabras SIN mostrar números entre paréntesis:
+const vueloTexto = vueloPron && vueloDigits
+  ? vueloPron
+  : vuelo || "XXXX";;
 
   const gateText = getGateText(lang, gate, secondaryGate) || "";
   const gateSentence = gateText ? " " + gateText : "";
