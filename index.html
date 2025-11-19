@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Flybondi - Traductor de Anuncios</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <h1>Flybondi - Traductor de Anuncios</h1>
+</header>
+
+<main>
+  <!-- Datos del vuelo -->
+  <section class="card">
+    <h2>Datos del vuelo</h2>
+    <div class="grid">
+      <div class="field">
+        <label for="flightNumber">Número de vuelo</label>
+        <input type="text" id="flightNumber" placeholder="5240">
+      </div>
+
+      <div class="field">
+        <label for="destination">Destino</label>
+        <select id="destination">
+          <option value="">-- Seleccionar destino --</option>
+          <!-- COMPLETÁ ESTA LISTA CON TODOS LOS DESTINOS DE FLYBONDI -->
+          <option value="Buenos Aires - Aeroparque">Buenos Aires - Aeroparque</option>
+          <option value="Buenos Aires - Ezeiza">Buenos Aires - Ezeiza</option>
+          <option value="Córdoba">Córdoba</option>
+          <option value="Mendoza">Mendoza</option>
+          <option value="Bariloche">Bariloche</option>
+          <option value="Salta">Salta</option>
+          <option value="Neuquén">Neuquén</option>
+          <option value="Ushuaia">Ushuaia</option>
+          <option value="São Paulo">São Paulo</option>
+          <option value="Rio de Janeiro">Rio de Janeiro</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="gate">Puerta principal (1–31)</label>
+        <select id="gate">
+          <option value="">-- Puerta --</option>
+          <!-- Puertas 1 a 31 -->
+          <!-- podés generar esto con JS, pero lo dejo explícito -->
+          <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+          <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+          <option>11</option><option>12</option><option>13</option><option>14</option><option>15</option>
+          <option>16</option><option>17</option><option>18</option><option>19</option><option>20</option>
+          <option>21</option><option>22</option><option>23</option><option>24</option><option>25</option>
+          <option>26</option><option>27</option><option>28</option><option>29</option><option>30</option>
+          <option>31</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="secondaryGate">Puerta secundaria (cambio de puerta)</label>
+        <input type="text" id="secondaryGate" placeholder="Ej: 12B">
+        <small>
+          Si completás, el anuncio informará que la puerta cambió
+          de la puerta principal a esta.
+        </small>
+      </div>
+    </div>
+  </section>
+
+  <!-- Grupos de embarque -->
+  <section class="card">
+    <h2>Grupos de embarque</h2>
+    <p>Si los seleccionás, se agregarán al anuncio (sobre todo en inicio de embarque / llamada por grupos).</p>
+    <div class="groups">
+      <label>
+        <input type="checkbox" class="group-check" value="1">
+        Grupo 1: filas 1 a 8
+      </label>
+      <label>
+        <input type="checkbox" class="group-check" value="2">
+        Grupo 2: filas 9 a 16
+      </label>
+      <label>
+        <input type="checkbox" class="group-check" value="3">
+        Grupo 3: filas 17 a 24
+      </label>
+      <label>
+        <input type="checkbox" class="group-check" value="4">
+        Grupo 4: filas 25 a 32
+      </label>
+    </div>
+  </section>
+
+  <!-- Idiomas -->
+  <section class="card">
+    <h2>Idiomas</h2>
+    <p>Seleccioná a qué idiomas querés generar el anuncio.</p>
+    <div class="languages">
+      <label><input type="checkbox" id="langEs" checked> Español</label>
+      <label><input type="checkbox" id="langEn"> Inglés</label>
+      <label><input type="checkbox" id="langPt"> Portugués</label>
+    </div>
+  </section>
+
+  <!-- Plantillas -->
+  <section class="card">
+    <h2>Plantilla de anuncio</h2>
+    <div class="field">
+      <label for="template">Seleccionar plantilla</label>
+      <select id="template">
+        <option value="pre-embarque">Pre-embarque</option>
+        <option value="inicio-embarque">Inicio de embarque</option>
+        <option value="llamada-grupos">Llamada por grupos</option>
+        <option value="ultimo-aviso">Último aviso de embarque</option>
+        <option value="demora">Anuncio por demora</option>
+        <option value="cancelacion">Anuncio por cancelación</option>
+        <option value="condicional">Vuelo condicional por meteorología</option>
+        <option value="texto-libre">Texto libre</option>
+      </select>
+    </div>
+
+    <div class="field" id="freeTextContainer" style="display:none;">
+      <label for="freeText">Texto libre (se usará tal cual en todos los idiomas seleccionados)</label>
+      <textarea id="freeText" rows="4"
+        placeholder="Escribí aquí el texto que quieras anunciar..."></textarea>
+    </div>
+  </section>
+
+  <!-- Controles de voz -->
+  <section class="card">
+    <h2>Configuración de voz</h2>
+    <div class="grid">
+      <div class="field">
+        <label for="voiceLang">Idioma de la voz</label>
+        <select id="voiceLang">
+          <option value="es">Español</option>
+          <option value="en">Inglés</option>
+          <option value="pt">Portugués</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="voiceGender">Género (si el sistema lo soporta)</label>
+        <select id="voiceGender">
+          <option value="any">Cualquiera</option>
+          <option value="female">Femenino</option>
+          <option value="male">Masculino</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="rate">Velocidad</label>
+        <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1">
+        <span class="range-value" id="rateValue">1.0</span>
+      </div>
+      <div class="field">
+        <label for="pitch">Tono</label>
+        <input type="range" id="pitch" min="0" max="2" step="0.1" value="1">
+        <span class="range-value" id="pitchValue">1.0</span>
+      </div>
+      <div class="field">
+        <label for="volume">Volumen</label>
+        <input type="range" id="volume" min="0" max="1" step="0.1" value="1">
+        <span class="range-value" id="volumeValue">1.0</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Acciones -->
+  <section class="card">
+    <h2>Generar anuncio</h2>
+    <button id="generateBtn">Generar texto</button>
+    <button id="speakBtn">Reproducir voz (idioma seleccionado arriba)</button>
+
+    <div class="output">
+      <h3>Resultado</h3>
+      <div class="output-section">
+        <h4>Español</h4>
+        <textarea id="outputEs" rows="5" readonly></textarea>
+      </div>
+      <div class="output-section">
+        <h4>Inglés</h4>
+        <textarea id="outputEn" rows="5" readonly></textarea>
+      </div>
+      <div class="output-section">
+        <h4>Portugués</h4>
+        <textarea id="outputPt" rows="5" readonly></textarea>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <small>Herramienta de práctica de anuncios - No oficial</small>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

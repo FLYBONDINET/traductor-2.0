@@ -1,0 +1,307 @@
+:root {
+  /* Paleta Flybondi aproximada */
+  --fb-yellow: #ffc928;
+  --fb-yellow-soft: #ffe59b;
+  --fb-dark: #222222;
+  --fb-dark-soft: #444444;
+  --fb-bg: #f7f3e9;
+  --fb-card: #ffffff;
+  --fb-border-soft: #ecd9b5;
+  --fb-focus: #ffcf3a;
+}
+
+/* Reset básico */
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Fondo general con un toque dinámico */
+body {
+  min-height: 100vh;
+  background: radial-gradient(circle at top left, #ffe8a8 0, #f7f3e9 45%, #f7f3e9 100%);
+  color: var(--fb-dark);
+}
+
+/* HEADER */
+header {
+  background: linear-gradient(135deg, var(--fb-yellow), #ffd858);
+  padding: 1.1rem 2rem 1.6rem;
+  text-align: center;
+  font-weight: 700;
+  color: #2b2b2b;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  border-bottom-left-radius: 28px;
+  border-bottom-right-radius: 28px;
+}
+
+header h1 {
+  font-size: 1.5rem;
+  letter-spacing: 0.04em;
+}
+
+/* CONTENEDOR PRINCIPAL */
+main {
+  max-width: 1100px;
+  margin: 1.8rem auto 2.4rem;
+  padding: 0 1rem 1rem;
+}
+
+/* TARJETAS (SECCIONES) */
+.card {
+  background: var(--fb-card);
+  border-radius: 20px;
+  padding: 1.1rem 1.3rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Barra decorativa lateral izquierda */
+.card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 16px;
+  bottom: 16px;
+  width: 4px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--fb-yellow), var(--fb-yellow-soft));
+  opacity: 0.9;
+}
+
+/* Títulos de secciones */
+.card > h2 {
+  margin-left: 0.5rem;
+  margin-bottom: 0.6rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--fb-dark-soft);
+}
+
+/* GRID GENERAL */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1rem;
+}
+
+/* CAMPOS */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 16px;
+  transition: background 0.2s ease;
+}
+
+.field:hover {
+  background: rgba(255, 201, 40, 0.06);
+}
+
+label {
+  font-weight: 600;
+  font-size: 0.87rem;
+  color: var(--fb-dark-soft);
+}
+
+/* Inputs, selects, textareas */
+input[type="text"],
+select,
+textarea {
+  padding: 0.45rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--fb-border-soft);
+  font-size: 0.95rem;
+  background: #fffdf5;
+  transition: border 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, transform 0.06s ease;
+  outline: none;
+}
+
+textarea {
+  border-radius: 16px;
+  resize: vertical;
+  min-height: 80px;
+}
+
+input[type="text"]:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--fb-focus);
+  box-shadow: 0 0 0 2px rgba(255, 201, 40, 0.4);
+  background: #ffffff;
+  transform: translateY(-1px);
+}
+
+small {
+  font-size: 0.75rem;
+  color: #777;
+}
+
+/* CHECKBOXES / IDIOMAS / GRUPOS */
+.groups,
+.languages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  padding: 0.2rem 0.3rem;
+}
+
+.groups label,
+.languages label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(255, 201, 40, 0.12);
+  border: 1px solid rgba(255, 201, 40, 0.4);
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.06s ease, box-shadow 0.15s ease;
+}
+
+.groups label:hover,
+.languages label:hover {
+  background: rgba(255, 201, 40, 0.22);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.groups input[type="checkbox"],
+.languages input[type="checkbox"] {
+  accent-color: var(--fb-yellow);
+}
+
+/* BOTONES */
+button {
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  background: radial-gradient(circle at top left, var(--fb-yellow), #ffcf3a);
+  color: #1c1300;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+  transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.15s ease;
+}
+
+button:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.22);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.18);
+}
+
+/* SALIDA DE TEXTOS */
+.output {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+.output-section {
+  background: #fffdf7;
+  border-radius: 16px;
+  border: 1px dashed rgba(236, 217, 181, 0.9);
+  padding: 0.7rem 0.8rem;
+}
+
+.output-section h3,
+.output-section h4 {
+  margin: 0 0 0.4rem 0.2rem;
+}
+
+.output-section textarea {
+  width: 100%;
+  font-size: 0.9rem;
+  border-radius: 14px;
+  border: 1px solid var(--fb-border-soft);
+  background: #ffffff;
+}
+
+/* SLIDERS (velocidad, tono, volumen) */
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  background: transparent;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  background: #f0e2c4;
+  border-radius: 999px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--fb-yellow);
+  box-shadow: 0 0 0 3px rgba(255, 201, 40, 0.45);
+  margin-top: -5px;
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-track {
+  height: 6px;
+  background: #f0e2c4;
+  border-radius: 999px;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--fb-yellow);
+  border: none;
+  box-shadow: 0 0 0 3px rgba(255, 201, 40, 0.45);
+  cursor: pointer;
+}
+
+.range-value {
+  font-size: 0.8rem;
+  align-self: flex-end;
+  color: #666;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 0.9rem;
+  font-size: 0.8rem;
+  color: #777;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  header {
+    padding-inline: 1.2rem;
+  }
+
+  header h1 {
+    font-size: 1.25rem;
+  }
+
+  main {
+    margin-top: 1.4rem;
+  }
+
+  .card {
+    border-radius: 18px;
+  }
+}
