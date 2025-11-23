@@ -82,23 +82,19 @@ function getSelectedGroups() {
 function getGateText(lang, gate, secondaryGate) {
   if (!gate && !secondaryGate) return "";
 
-  // ¿la puerta secundaria es solo número?
   const isSecondaryNumeric = secondaryGate && /^\d+$/.test(secondaryGate);
 
-  // Convertir puertas a palabras si son 1–31
   const gateWords = gate ? gateNumberToWords(gate, lang) : "";
   const secondaryWords = secondaryGate
     ? (isSecondaryNumeric ? gateNumberToWords(secondaryGate, lang) : secondaryGate)
     : "";
 
-  // Sin puerta secundaria: solo principal
   if (!secondaryGate) {
     if (lang === "es") return `por la puerta ${gateWords}`;
     if (lang === "en") return `through gate ${gateWords}`;
     if (lang === "pt") return `pelo portão ${gateWords}`;
   }
 
-  // Con cambio de puerta
   if (secondaryGate) {
     if (lang === "es") {
       return `por la puerta ${secondaryWords}. Se informa el cambio de puerta: el embarque se realizará por la puerta ${secondaryWords} en lugar de la puerta ${gateWords}.`;
@@ -117,14 +113,12 @@ function getGateText(lang, gate, secondaryGate) {
 function buildAnnouncement(lang, template, data) {
   const { vuelo, destino, gate, secondaryGate, grupos } = data;
 
-// Número de vuelo: leer dígito por dígito según idioma
-const vueloDigits = (vuelo || "").replace(/\D/g, "");
-const vueloPron = numberToWordsPerDigit(vueloDigits, lang);
+  const vueloDigits = (vuelo || "").replace(/\D/g, "");
+  const vueloPron = numberToWordsPerDigit(vueloDigits, lang);
 
-// Ahora el vuelo se dirá como palabras SIN mostrar números entre paréntesis:
-const vueloTexto = vueloPron && vueloDigits
-  ? vueloPron
-  : vuelo || "XXXX";;
+  const vueloTexto = (vueloPron && vueloDigits)
+    ? vueloPron
+    : (vuelo || "XXXX");
 
   const gateText = getGateText(lang, gate, secondaryGate) || "";
   const gateSentence = gateText ? " " + gateText : "";
@@ -297,6 +291,9 @@ function generateText() {
 // --- TEXT TO SPEECH ---
 
 let voices = [];
+let ttsQueue = [];
+let ttsIndex = 0;
+let ttsStopped = false;
 
 function loadVoices() {
   voices = window.speechSynthesis.getVoices();
@@ -331,40 +328,71 @@ function pickVoice(langCode, gender) {
   return filtered[0];
 }
 
+// 🔊 NUEVO: reproducir en cola ES → EN → PT
 function speakCurrent() {
   const rate = parseFloat(document.getElementById("rate").value);
   const pitch = parseFloat(document.getElementById("pitch").value);
   const volume = parseFloat(document.getElementById("volume").value);
-  const voiceLang = document.getElementById("voiceLang").value; // es/en/pt
   const voiceGender = document.getElementById("voiceGender").value; // any/male/female
 
-  let text = "";
-  if (voiceLang === "es") text = document.getElementById("outputEs").value;
-  if (voiceLang === "en") text = document.getElementById("outputEn").value;
-  if (voiceLang === "pt") text = document.getElementById("outputPt").value;
+  const esText = document.getElementById("outputEs").value.trim();
+  const enText = document.getElementById("outputEn").value.trim();
+  const ptText = document.getElementById("outputPt").value.trim();
 
-  if (!text) {
-    alert("No hay texto generado en el idioma seleccionado.");
+  // Construimos la cola en orden: ES → EN → PT si tienen texto
+  ttsQueue = [];
+  if (esText) ttsQueue.push({ lang: "es", text: esText });
+  if (enText) ttsQueue.push({ lang: "en", text: enText });
+  if (ptText) ttsQueue.push({ lang: "pt", text: ptText });
+
+  if (ttsQueue.length === 0) {
+    alert("No hay texto generado en ningún idioma.");
     return;
   }
+
+  ttsIndex = 0;
+  ttsStopped = false;
 
   if (!("speechSynthesis" in window)) {
     alert("Text-to-Speech no está soportado en este navegador.");
     return;
   }
 
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.rate = rate;
-  utterance.pitch = pitch;
-  utterance.volume = volume;
-
-  const voice = pickVoice(voiceLang, voiceGender);
-  if (voice) {
-    utterance.voice = voice;
-  }
-
   window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(utterance);
+
+  const playItem = (index) => {
+    if (index >= ttsQueue.length || ttsStopped) return;
+
+    const item = ttsQueue[index];
+    const utterance = new SpeechSynthesisUtterance(item.text);
+    utterance.rate = rate;
+    utterance.pitch = pitch;
+    utterance.volume = volume;
+
+    // Idioma para el motor TTS
+    if (item.lang === "es") utterance.lang = "es-ES";
+    if (item.lang === "en") utterance.lang = "en-US";
+    if (item.lang === "pt") utterance.lang = "pt-BR";
+
+    const voice = pickVoice(item.lang, voiceGender);
+    if (voice) utterance.voice = voice;
+
+    utterance.onend = () => {
+      if (ttsStopped) return;
+      playItem(index + 1);
+    };
+
+    window.speechSynthesis.speak(utterance);
+  };
+
+  playItem(0);
+}
+
+// 🔴 DETENER LOCUCIÓN
+function stopSpeaking() {
+  ttsStopped = true;
+  if (!("speechSynthesis" in window)) return;
+  window.speechSynthesis.cancel();
 }
 
 // --- SLIDERS ---
@@ -385,6 +413,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("generateBtn").addEventListener("click", generateText);
   document.getElementById("speakBtn").addEventListener("click", speakCurrent);
+  document.getElementById("stopBtn").addEventListener("click", stopSpeaking);
 
   ["rate", "pitch", "volume"].forEach(id => {
     document.getElementById(id).addEventListener("input", updateSliderLabels);

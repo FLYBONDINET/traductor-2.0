@@ -26,16 +26,34 @@
         <select id="destination">
           <option value="">-- Seleccionar destino --</option>
           <!-- COMPLETÁ ESTA LISTA CON TODOS LOS DESTINOS DE FLYBONDI -->
-          <option value="Buenos Aires - Aeroparque">Buenos Aires - Aeroparque</option>
-          <option value="Buenos Aires - Ezeiza">Buenos Aires - Ezeiza</option>
-          <option value="Córdoba">Córdoba</option>
-          <option value="Mendoza">Mendoza</option>
+          <option value="Asunción">Asunción</option>
           <option value="Bariloche">Bariloche</option>
-          <option value="Salta">Salta</option>
+          <option value="Belorizonte">Belorizonte</option>
+          <option value="Córdoba">Córdoba</option>
+          <option value="Corrientes">Corrientes</option>
+          <option value="El Calafate">El Calafate</option>
+          <option value="Encarnación">Encarnación</option>
+          <option value="Florianopolis">Florianopolis</option>
+          <option value="Iguazú">Iguazú</option>
+          <option value="Jujuy">Jujuy</option>
+          <option value="Lima">Lima</option>
+          <option value="Maceió">Maceió</option>
+          <option value="Mendoza">Mendoza</option>
+          <option value="Mina Gerais">Mina Gerais</option>
           <option value="Neuquén">Neuquén</option>
-          <option value="Ushuaia">Ushuaia</option>
-          <option value="São Paulo">São Paulo</option>
+          <option value="Posadas">Posadas</option>
+          <option value="Puerto Madryn">Puerto Madryn</option>
+          <option value="Punta del Este">Punta del Este</option>
           <option value="Rio de Janeiro">Rio de Janeiro</option>
+          <option value="Rio Gallegos">Rio Gallegos</option>
+          <option value="Salta">Salta</option>
+          <option value="Salvador de Bahía">Salvador de Bahía</option>
+          <option value="San Juan">San Juan</option>
+          <option value="Santiago del Estero">Santiago del Estero</option>
+          <option value="São Paulo">São Paulo</option>
+          <option value="Trelew">Trelew</option>
+          <option value="Tucuman">Tucuman</option>
+          <option value="Ushuaia">Ushuaia</option>
         </select>
       </div>
 
@@ -44,13 +62,12 @@
         <select id="gate">
           <option value="">-- Puerta --</option>
           <!-- Puertas 1 a 31 -->
-          <!-- podés generar esto con JS, pero lo dejo explícito -->
           <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
           <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
           <option>11</option><option>12</option><option>13</option><option>14</option><option>15</option>
           <option>16</option><option>17</option><option>18</option><option>19</option><option>20</option>
-          <option>21</option><option>22</option><option>23</option><option>24</option><option>25</option>
-          <option>26</option><option>27</option><option>28</option><option>29</option><option>30</option>
+          <option>21</option><option>22</option><option>23</option><option>23 B</option><option>24</option><option>25</option>
+          <option>26</option><option>27</option><option>27 B</option><option>28</option><option>29</option><option>30</option>
           <option>31</option>
         </select>
       </div>
@@ -168,6 +185,8 @@
     <h2>Generar anuncio</h2>
     <button id="generateBtn">Generar texto</button>
     <button id="speakBtn">Reproducir voz (idioma seleccionado arriba)</button>
+    <!-- 🔴 NUEVO BOTÓN DETENER -->
+    <button id="stopBtn">Detener</button>
 
     <div class="output">
       <h3>Resultado</h3>
